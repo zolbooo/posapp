@@ -38,6 +38,28 @@ ProductType read_product_type()
 	return type;
 }
 
+ProductType create_product_type(sqlite3 *db)
+{
+	ProductType type = read_product_type();
+	sqlite3_stmt *insert_product_type_statement = NULL;
+	if (sqlite3_prepare_v2(db, "INSERT INTO product_categories (name) VALUES (?) RETURNING category_id;", -1, &insert_product_type_statement, NULL) != SQLITE_OK)
+	{
+		std::cerr << "Error preparing insert product type statement: " << sqlite3_errmsg(db) << std::endl;
+		sqlite3_close(db);
+		exit(1);
+	}
+	sqlite3_bind_text(insert_product_type_statement, 1, type.type_name.c_str(), -1, SQLITE_STATIC);
+	if (sqlite3_step(insert_product_type_statement) != SQLITE_ROW)
+	{
+		std::cerr << "Error inserting product type: " << sqlite3_errmsg(db) << std::endl;
+		sqlite3_close(db);
+		exit(1);
+	}
+	type.type_id = sqlite3_column_int(insert_product_type_statement, 0);
+	sqlite3_finalize(insert_product_type_statement);
+	return type;
+}
+
 Product read_product()
 {
 	Product product;

@@ -40,8 +40,8 @@ struct Purchase
 };
 
 Cashier read_cashier();
-int count_cashiers(sqlite3 *db);
 
-ProductType read_product_type();
+int count_cashiers(sqlite3 *db);
+ProductType create_product_type(sqlite3 *db);
 Product read_product();
 Purchase read_purchase();

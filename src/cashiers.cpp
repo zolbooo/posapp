@@ -51,6 +51,7 @@ Cashier authorize(sqlite3 *db)
 	{
 		std::cerr << "Invalid username or password." << std::endl;
 		sqlite3_finalize(authorize_statement);
+		sqlite3_close(db);
 		exit(1);
 	}
 
