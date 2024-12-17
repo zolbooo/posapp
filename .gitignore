@@ -13,6 +13,10 @@ CMakeUserPresets.json
 
 # Build output
 POSApp
+build/
 
 # SQLite databases
 *.sqlite3
+
+# VSCode
+.vscode/
